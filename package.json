@@ -1,0 +1,52 @@
+{
+  "name": "grunt-voguesy",
+  "version": "0.0.0",
+  "description": "A grunt task to analyse the up-to-dateness of your dependencies",
+  "scripts": {
+    "test": "grunt ci-test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tdeekens/grunt-voguesy.git"
+  },
+  "keywords": [
+    "grunt",
+    "npm",
+    "dependencies",
+    "bower",
+    "npm",
+    "outdated",
+    "up-to-dateness"
+  ],
+  "author": "Tobias Deekens <nerd@tdeekens.name> (http://tdeekens.name)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tdeekens/grunt-voguesy/issues"
+  },
+  "homepage": "https://github.com/tdeekens/grunt-voguesy",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-mocha-cov": "^0.3.0",
+    "grunt-mocha-test": "^0.12.4",
+    "grunt-shell": "^1.1.1",
+    "load-grunt-config": "^0.16.0",
+    "mocha": "^2.0.1",
+    "time-grunt": "^1.0.0"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-cli": "~0.1.1"
+  },
+  "config": {
+    "blanket": {
+      "pattern": [
+        "tasks"
+      ]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "default": [
+    "jshint"
+  ],
+  "test": [
+    "mochacov:html",
+    "mochacov:spec"
+  ],
+  "ci-test": [
+    "test",
+    "mochacov:ci"
+  ],
+  "dev": [
+    "voguesy"
+  ]
+}

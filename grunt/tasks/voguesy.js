@@ -10,6 +10,7 @@ module.exports = {
       minor: 2,
       patch: 5,
       number: 5
-    }
+    },
+    exclusions: ['mocha']
   }
 };

@@ -28,14 +28,15 @@ module.exports = function(grunt) {
           minor: 2,
           patch: 5,
           number: 5
-        }
+        },
+        exclusions: []
       }),
       done = this.async();
 
     //Setup helper objects with grunt options passed in
     var
-      npmFetcher = new NpmFetcher(),
-      bowerFetcher = new BowerFetcher(),
+      npmFetcher = new NpmFetcher(options.exclusions),
+      bowerFetcher = new BowerFetcher(options.exclusions),
       semver = new SemVer(options['up-to-dateness']),
       persister = new Persister(options.store);
 

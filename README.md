@@ -41,6 +41,7 @@ Not everything has to be in a 0.1.0 - consider it an idea of bold ideas.
 - ~~Write into e.g. `dist: '/dist/voguesy.json'` the current status of your dependencies~~
   - ~~as well as the run-count since last check~~
 - Add credits file to map to `git author` with highscore to `voguesy.json`
+- ~~Support for specifying dependencies which shall be emitted from being processed~~
 
 ## The "voguesy" task
 
@@ -71,7 +72,9 @@ Or add it to an existing task: `grunt.registerTask('test', ['clean', 'voguesy'])
     //Limit of outdated libs, no matter what semver increment
     number: <5>
   },
-
+  //Dependencies which shall not be analyzed, e.g. ['mocha']
+  //Note, this applies for all (npm & bower) dependencies 
+  exclusions: <[]>
 }
 ```
 
@@ -86,4 +89,5 @@ Developing on the task alone is fairly easy just `git clone https://github.com/t
 - 0.1.0 Initial release of mvp feature set
 - 0.1.1 Fix shelljs dependency
 - 0.1.2 Add lodash as dependency
-- 0.1.3 Add resilence for npm returning empty strings from command line
+- 0.1.3 Add resilience for npm returning empty strings from command line
+- 0.1.4 Add support for specifying dependencies to be filtered from being processed

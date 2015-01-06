@@ -8,6 +8,9 @@
     "patch": 5,
     "number": 5
   },
+  "exclusions": [
+    "mocha"
+  ],
   "comparator": "latest",
   "since": 0,
   "up-to-date": {
@@ -15,13 +18,7 @@
     "bower": true,
     "all": true,
     "outdated": {
-      "npm": [
-        {
-          "package": "mocha",
-          "current": "2.0.1",
-          "latest": "2.1.0"
-        }
-      ],
+      "npm": [],
       "bower": []
     }
   }

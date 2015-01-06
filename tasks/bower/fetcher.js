@@ -4,7 +4,8 @@ var shell = require('shelljs'),
     fs = require('fs'),
     _ = require('lodash');
 
-function Fetcher() {
+function Fetcher(exclusions) {
+  this._exclusions = exclusions;
 }
 
 Fetcher.prototype.get = function(onSuccess) {
@@ -25,13 +26,13 @@ Fetcher.prototype.get = function(onSuccess) {
           parsedOutdated = {};
 
       _.each(jsonOutdated.dependencies, function(dependency, packageName) {
-        if (dependency.update !== undefined) {
+        if (dependency.update !== undefined && !_.contains(this._exclusions, packageName)) {
           parsedOutdated[packageName] = {
             current: dependency.pkgMeta.version,
             latest: dependency.update.latest
           };
         }
-      });
+      }, this);
 
       onSuccess(parsedOutdated);
     });

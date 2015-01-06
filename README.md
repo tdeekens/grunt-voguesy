@@ -85,3 +85,4 @@ Developing on the task alone is fairly easy just `git clone https://github.com/t
 - 0.0.0 Development version without release
 - 0.1.0 Initial release of mvp feature set
 - 0.1.1 Fix shelljs dependency
+- 0.1.2 Add lodash as dependency

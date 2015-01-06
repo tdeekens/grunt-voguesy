@@ -63,4 +63,91 @@ describe('Semver comparator specification', function() {
     expect(semver.patch().ahead(2)).to.be.false;
     expect(semver.patch().ahead(3)).to.be.true;
   });
+
+  it('it evaluates a list of dependencies and their major version', function() {
+    semver = new Semver({
+      major: 5,
+      minor: 5,
+      patch: 5
+    });
+
+    var packages = {
+      mocha: {
+        current: '2.0.1',
+        latest: '3.1.0'
+      },
+      voguesy: {
+        current: '1.0.1',
+        latest: '2.0.0'
+      }
+    };
+
+    expect(semver.allMajor(packages)).to.be.true;
+
+    semver = new Semver({
+      major: 0,
+      minor: 0,
+      patch: 5
+    });
+
+    expect(semver.allMajor(packages)).to.be.false;
+  });
+
+  it('it evaluates a list of dependencies and their minor version', function() {
+    semver = new Semver({
+      major: 1,
+      minor: 5,
+      patch: 5
+    });
+
+    var packages = {
+      mocha: {
+        current: '2.0.1',
+        latest: '2.1.0'
+      },
+      voguesy: {
+        current: '1.0.1',
+        latest: '2.0.0'
+      }
+    };
+
+    expect(semver.allMinor(packages)).to.be.true;
+
+    semver = new Semver({
+      major: 1,
+      minor: 0,
+      patch: 5
+    });
+
+    expect(semver.allMinor(packages)).to.be.false;
+  });
+
+  it('it evaluates a list of dependencies and their patch version', function() {
+    semver = new Semver({
+      major: 5,
+      minor: 5,
+      patch: 0
+    });
+
+    var packages = {
+      mocha: {
+        current: '2.1.0',
+        latest: '2.1.1'
+      },
+      voguesy: {
+        current: '2.0.0',
+        latest: '2.0.1'
+      }
+    };
+
+    expect(semver.allPatch(packages)).to.be.false;
+
+    semver = new Semver({
+      major: 5,
+      minor: 5,
+      patch: 2
+    });
+
+    expect(semver.allPatch(packages)).to.be.true;
+  });
 });

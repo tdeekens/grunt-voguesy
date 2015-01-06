@@ -6,9 +6,10 @@ function Fetcher() {
 }
 
 Fetcher.prototype.get = function() {
-  var outdated = JSON.parse(
-    shell.exec('npm outdated --json --depth=0 --parseable=true', {silent: true}).output
-  );
+  var shellStdOut = shell.exec('npm outdated --json --depth=0 --parseable=true', {silent: true}).output,
+      outdated = JSON.parse(
+        (shellStdOut.length > 0) ? shellStdOut : '{}'
+      );
 
   return outdated;
 };

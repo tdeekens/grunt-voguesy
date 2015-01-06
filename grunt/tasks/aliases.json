@@ -1,8 +1,9 @@
 {
   "default": [
-    "jshint"
+    "test"
   ],
   "test": [
+    "jshint",
     "mochacov:html",
     "mochacov:spec"
   ],

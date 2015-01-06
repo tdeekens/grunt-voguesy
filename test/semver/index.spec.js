@@ -5,7 +5,8 @@ var Semver = require('../../tasks/semver/index'),
 
 describe('Semver comparator specification', function() {
   beforeEach(function() {
-    semver = new Semver('1.2.3', '4.5.6');
+    semver = new Semver();
+    semver.setComparison('1.2.3', '4.5.6');
   });
 
   it('it parses valid semver strings', function() {
@@ -13,13 +14,16 @@ describe('Semver comparator specification', function() {
   });
 
   it('it fails on invalid semver strings', function() {
-    semver = new Semver('1.2.3', '4.5');
+    semver = new Semver();
+    semver.setComparison().setComparison('1.2.3', '4.5');
     expect(semver.valid()).to.be.false;
 
-    semver = new Semver('1.2', '4.5.6');
+    semver = new Semver();
+    semver.setComparison('1.2', '4.5.6');
     expect(semver.valid()).to.be.false;
 
-    semver = new Semver('1.2', '4.5.v6');
+    semver = new Semver();
+    semver.setComparison('1.2', '4.5.v6');
     expect(semver.valid()).to.be.false;
   });
 
@@ -38,7 +42,7 @@ describe('Semver comparator specification', function() {
     expect(semver.patch().is(3)).to.be.true;
   });
 
-  it('it allows to to specify allowed ranges on semvers', function() {
+  it('it allows to to specify allowed backward ranges on semvers', function() {
     expect(semver.major().behind(3)).to.be.true;
     expect(semver.major().behind(1)).to.be.false;
 
@@ -47,5 +51,16 @@ describe('Semver comparator specification', function() {
 
     expect(semver.patch().behind(3)).to.be.true;
     expect(semver.patch().behind(1)).to.be.false;
+  });
+
+  it('it allows to to specify allowed forward ranges on semvers', function() {
+    expect(semver.major().ahead(2)).to.be.false;
+    expect(semver.major().ahead(3)).to.be.true;
+
+    expect(semver.minor().ahead(2)).to.be.false;
+    expect(semver.minor().ahead(3)).to.be.true;
+
+    expect(semver.patch().ahead(2)).to.be.false;
+    expect(semver.patch().ahead(3)).to.be.true;
   });
 });

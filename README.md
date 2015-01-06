@@ -28,18 +28,18 @@ grunt.loadNpmTasks('grunt-voguesy');
 ## Development Roadmap
 Not everything has to be in a 0.1.0 - consider it an idea of bold ideas.
 
-- Gather dependency status for `bower` and `npm`
-  - `npm outdated --json --parseable`
-  - `bower list`
-- Allow to specify amount of outdated dependencies and a semver range
-  - `pass: 5` would imply allowing to pass with 5 deps
-  - `semver: 'major|minor|path'` to match the semver range
-  - Maybe allow config per semver range
-- Properly print the number of outdated versions
-- Run task after e.g. every `run: 5` builds cause things take time to fetch
-- Option to `warn: true` or break build otherwise (grunt fail)
-- Write into e.g. `dist: '/dist/voguesy.json'` the current status of your dependencies
-  - as well as the run-count since last check
+- ~~Gather dependency status for `bower` and `npm`~~
+  - ~~`npm outdated --json --parseable`~~
+  - ~~`bower list`~~
+- ~~Allow to specify amount of outdated dependencies and a semver range~~
+  - ~~`pass: 5` would imply allowing to pass with 5 deps~~
+  - ~~`semver: 'major|minor|path'` to match the semver range~~
+  - ~~Maybe allow config per semver range~~
+- ~~Properly print the outdated versions~~
+- ~~Run task after e.g. every `run: 5` builds cause things take time to fetch~~
+- ~~Option to `warn: true` or break build otherwise (grunt fail)~~
+- ~~Write into e.g. `dist: '/dist/voguesy.json'` the current status of your dependencies~~
+  - ~~as well as the run-count since last check~~
 - Add credits file to map to `git author` with highscore to `voguesy.json`
 
 ## The "voguesy" task
@@ -55,6 +55,23 @@ Or add it to an existing task: `grunt.registerTask('test', ['clean', 'voguesy'])
 **TBD**
 
 ```javascript
+{
+  //Run task after n number of grunt runs
+  awake: <25>,
+  //Save intermediate information in this file
+  store: <'./dist/voguesy.json'>,
+  //If true only warns, does not break build
+  warn: <true>,
+  //Information about how up-to-date the libraries should be
+  //the allowed threshold for your project
+  'up-to-dateness': {
+    major: <0>,
+    minor: <2>,
+    patch: <5>,
+    //Limit of outdated libs, no matter what semver increment
+    number: <5>
+  },
+
 }
 ```
 
@@ -66,3 +83,4 @@ Developing on the task alone is fairly easy just `git clone https://github.com/t
 
 ## Release History
 - 0.0.0 Development version without release
+- 0.1.0 Initial release of mvp feature set

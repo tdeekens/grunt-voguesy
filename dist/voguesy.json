@@ -1,0 +1,28 @@
+{
+  "awake": 0,
+  "warn": true,
+  "store": "./dist/voguesy.json",
+  "up-to-dateness": {
+    "major": 0,
+    "minor": 2,
+    "patch": 5,
+    "number": 5
+  },
+  "comparator": "latest",
+  "since": 0,
+  "up-to-date": {
+    "npm": true,
+    "bower": true,
+    "all": true,
+    "outdated": {
+      "npm": [
+        {
+          "package": "mocha",
+          "current": "2.0.1",
+          "latest": "2.1.0"
+        }
+      ],
+      "bower": []
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "grunt-voguesy",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A grunt task to analyse the up-to-dateness of your dependencies",
   "scripts": {
     "test": "grunt ci-test"
@@ -19,7 +19,7 @@
     "up-to-dateness"
   ],
   "author": "Tobias Deekens <nerd@tdeekens.name> (http://tdeekens.name)",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/tdeekens/grunt-voguesy/issues"
   },
@@ -35,7 +35,9 @@
     "grunt-mocha-test": "^0.12.4",
     "grunt-shell": "^1.1.1",
     "load-grunt-config": "^0.16.0",
+    "lodash": "^2.4.1",
     "mocha": "^2.0.1",
+    "shelljs": "^0.3.0",
     "time-grunt": "^1.0.0"
   },
   "peerDependencies": {

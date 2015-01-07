@@ -1,6 +1,6 @@
 {
   "name": "grunt-voguesy",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A grunt task to analyse the up-to-dateness of your dependencies",
   "scripts": {
     "test": "grunt ci-test"

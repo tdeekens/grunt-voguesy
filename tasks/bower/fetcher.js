@@ -9,6 +9,8 @@ function Fetcher(exclusions) {
 }
 
 Fetcher.prototype.get = function(onSuccess) {
+  var _this = this;
+
   if (fs.existsSync('./bower.json')) {
     var
       child = shell.exec('bower list --json', {
@@ -32,7 +34,7 @@ Fetcher.prototype.get = function(onSuccess) {
             latest: dependency.update.latest
           };
         }
-      }, this);
+      }, _this);
 
       onSuccess(parsedOutdated);
     });

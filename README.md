@@ -73,7 +73,7 @@ Or add it to an existing task: `grunt.registerTask('test', ['clean', 'voguesy'])
     number: <5>
   },
   //Dependencies which shall not be analyzed, e.g. ['mocha']
-  //Note, this applies for all (npm & bower) dependencies 
+  //Note, this applies for all (npm & bower) dependencies
   exclusions: <[]>
 }
 ```
@@ -91,3 +91,4 @@ Developing on the task alone is fairly easy just `git clone https://github.com/t
 - 0.1.2 Add lodash as dependency
 - 0.1.3 Add resilience for npm returning empty strings from command line
 - 0.1.4 Add support for specifying dependencies to be filtered from being processed
+- 0.1.5 Fix exclusions being filtered correctly for bower

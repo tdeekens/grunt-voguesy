@@ -42,6 +42,7 @@ Not everything has to be in a 0.1.0 - consider it an idea of bold ideas.
   - ~~as well as the run-count since last check~~
 - Add credits file to map to `git author` with highscore to `voguesy.json`
 - ~~Support for specifying dependencies which shall be emitted from being processed~~
+- ~~Only list packages which do not match the specified semver range~~
 
 ## The "voguesy" task
 
@@ -93,3 +94,4 @@ Developing on the task alone is fairly easy just `git clone https://github.com/t
 - 0.1.4 Add support for specifying dependencies to be filtered from being processed
 - 0.1.5 Fix exclusions being filtered correctly for bower
 - 0.1.6 Fix merging npm and bower dependencies by reference (by cloning them)
+- 0.2.0 Refactoring and update output and listing to only output packages not matching semver range

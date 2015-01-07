@@ -43,14 +43,25 @@ module.exports = function(grunt) {
     //Helper function to avoid code repetition
     var
       checkDependencies = function(dependencies) {
-        var numberOfOudatedPackages = Object.keys(dependencies || {}).length;
+        var _dependencies = dependencies || {};
 
-        return (dependencies === null) ? true : (
-          options['up-to-dateness'].number >= numberOfOudatedPackages &&
-          semver.allMinor(dependencies, 'latest') &&
-          semver.allMajor(dependencies, 'latest') &&
-          semver.allPatch(dependencies, 'latest`')
+        var
+          _numberOfOudatedPackages = Object.keys(_dependencies).length,
+          _minor = semver.allMinor(dependencies, 'latest'),
+          _major = semver.allMajor(dependencies, 'latest'),
+          _patch = semver.allPatch(dependencies, 'latest`');
+
+        var _passing = (
+          options['up-to-dateness'].number >= _numberOfOudatedPackages &&
+          _major.passing === true &&
+          _minor.passing === true &&
+          _patch.passing === true
         );
+
+        return {
+          passing: _passing,
+          outdated: _.merge(_major.outdated, _minor.outdated, _patch.outdated)
+        };
       },
       dependenciesAsArray = function(dependencies) {
         return _.map(dependencies, function(dependency, packageName) {
@@ -104,24 +115,24 @@ module.exports = function(grunt) {
 
     //Do the work
     if (status.since >= options.awake) {
-      var outdatedNpmPackages = npmFetcher.get(),
+      var outdatedNpmPackages = checkDependencies(npmFetcher.get()),
           outdatedBowerPackages = null,
           outdatedNpmPackagesAsArray = null,
           outdatedBowerPackagesAsArray = null;
 
-      status['up-to-date'].npm = checkDependencies(outdatedNpmPackages);
+      status['up-to-date'].npm = outdatedNpmPackages.passing;
 
       bowerFetcher.get(function(outdatedPackages) {
-        outdatedBowerPackages = outdatedPackages;
+        outdatedBowerPackages = checkDependencies(outdatedBowerPackages);
 
-        status['up-to-date'].bower = checkDependencies(outdatedBowerPackages);
+        status['up-to-date'].bower = outdatedBowerPackages.passing;
 
         status['up-to-date'].all = (
           status['up-to-date'].npm && status['up-to-date'].bower
         );
 
-        outdatedNpmPackagesAsArray = dependenciesAsArray(outdatedNpmPackages);
-        outdatedBowerPackagesAsArray = dependenciesAsArray(outdatedBowerPackages);
+        outdatedNpmPackagesAsArray = dependenciesAsArray(outdatedNpmPackages.outdated);
+        outdatedBowerPackagesAsArray = dependenciesAsArray(outdatedBowerPackages.outdated);
 
         status['up-to-date'].outdated = {};
         status['up-to-date'].outdated.npm = outdatedNpmPackagesAsArray;

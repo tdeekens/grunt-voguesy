@@ -8,9 +8,7 @@
     "patch": 5,
     "number": 5
   },
-  "exclusions": [
-    "mocha"
-  ],
+  "exclusions": [],
   "comparator": "latest",
   "since": 0,
   "up-to-date": {

@@ -14,39 +14,60 @@ Semver.prototype.setComparison = function(base, comparator) {
 };
 
 Semver.prototype.allMajor = function(status, comparator) {
-  var _comparator = comparator || 'latest';
+  var
+    _comparator = comparator || 'latest',
+    _outdated = {};
 
-  var passing = _.all(status, function(version, packageName) {
+  _.each(status, function(version, packageName) {
     this.setComparison(version.current, version.latest);
 
-    return this.major().ahead(this._tolerance.major);
+    if (!this.major().ahead(this._tolerance.major)) {
+      _outdated[packageName] = version;
+    }
   }, this);
 
-  return passing;
+  return {
+    passing: Object.keys(_outdated).length <= 0,
+    outdated: _outdated
+  };
 };
 
 Semver.prototype.allMinor = function(status, comparator) {
-  var _comparator = comparator || 'latest';
+  var
+    _comparator = comparator || 'latest',
+    _outdated = {};
 
-  var passing = _.all(status, function(version, packageName) {
+  _.each(status, function(version, packageName) {
     this.setComparison(version.current, version.latest);
 
-    return this.minor().ahead(this._tolerance.minor);
+    if (!this.minor().ahead(this._tolerance.minor)) {
+      _outdated[packageName] = version;
+    }
   }, this);
 
-  return passing;
+  return {
+    passing: Object.keys(_outdated).length <= 0,
+    outdated: _outdated
+  };
 };
 
 Semver.prototype.allPatch = function(status, comparator) {
-  var _comparator = comparator || 'latest';
+  var
+    _comparator = comparator || 'latest',
+    _outdated = {};
 
-  var passing = _.all(status, function(version, packageName) {
+  _.each(status, function(version, packageName) {
     this.setComparison(version.current, version.latest);
 
-    return this.patch().ahead(this._tolerance.patch);
+    if (!this.patch().ahead(this._tolerance.patch)) {
+      _outdated[packageName] = version;
+    }
   }, this);
 
-  return passing;
+  return {
+    passing: Object.keys(_outdated).length <= 0,
+    outdated: _outdated
+  };
 };
 
 Semver.prototype.generate = function(part) {

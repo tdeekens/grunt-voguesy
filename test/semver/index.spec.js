@@ -82,7 +82,7 @@ describe('Semver comparator specification', function() {
       }
     };
 
-    expect(semver.allMajor(packages)).to.be.true;
+    expect(semver.allMajor(packages).passing).to.be.true;
 
     semver = new Semver({
       major: 0,
@@ -90,7 +90,7 @@ describe('Semver comparator specification', function() {
       patch: 5
     });
 
-    expect(semver.allMajor(packages)).to.be.false;
+    expect(semver.allMajor(packages).passing).to.be.false;
   });
 
   it('it evaluates a list of dependencies and their minor version', function() {
@@ -111,7 +111,7 @@ describe('Semver comparator specification', function() {
       }
     };
 
-    expect(semver.allMinor(packages)).to.be.true;
+    expect(semver.allMinor(packages).passing).to.be.true;
 
     semver = new Semver({
       major: 1,
@@ -119,7 +119,7 @@ describe('Semver comparator specification', function() {
       patch: 5
     });
 
-    expect(semver.allMinor(packages)).to.be.false;
+    expect(semver.allMinor(packages).passing).to.be.false;
   });
 
   it('it evaluates a list of dependencies and their patch version', function() {
@@ -140,7 +140,7 @@ describe('Semver comparator specification', function() {
       }
     };
 
-    expect(semver.allPatch(packages)).to.be.false;
+    expect(semver.allPatch(packages).passing).to.be.false;
 
     semver = new Semver({
       major: 5,
@@ -148,6 +148,6 @@ describe('Semver comparator specification', function() {
       patch: 2
     });
 
-    expect(semver.allPatch(packages)).to.be.true;
+    expect(semver.allPatch(packages).passing).to.be.true;
   });
 });

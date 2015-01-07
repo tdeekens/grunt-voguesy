@@ -11,6 +11,6 @@ module.exports = {
       patch: 5,
       number: 5
     },
-    exclusions: ['mocha']
+    exclusions: []
   }
 };

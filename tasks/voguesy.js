@@ -70,8 +70,12 @@ module.exports = function(grunt) {
         if (status.since >= options.awake && status['up-to-date'].all === false) {
           grunt.log.errorlns(
             'Dependencies are not passing your demanded up-to-dateness: ' +
-            _.map(_.merge(outdatedNpmPackagesAsArray, outdatedBowerPackagesAsArray), 'package') +
-            '.'
+            _.map(
+              _.merge(
+                _.clone(outdatedNpmPackagesAsArray),
+                _.clone(outdatedBowerPackagesAsArray)
+              ), 'package'
+            ) + '.'
           );
 
           persister.write(status);

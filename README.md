@@ -1,7 +1,5 @@
 # grunt-voguesy
 
-**Note: This grunt plugin is under current development and not ready for use just now!**
-
 > A grunt task to analyse the up-to-dateness of your dependencies.
 
 [![NPM](https://nodei.co/npm/grunt-voguesy.png?mini=true)](https://nodei.co/npm/grunt-voguesy/)

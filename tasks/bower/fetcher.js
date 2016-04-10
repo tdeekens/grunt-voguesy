@@ -1,40 +1,39 @@
 'use strict';
 
-var shell = require('shelljs'),
-    fs = require('fs'),
-    _ = require('lodash');
+var shell = require('shelljs');
+var fs = require('fs');
+var _ = require('lodash');
 
 function Fetcher(exclusions) {
   this._exclusions = exclusions;
 }
 
 Fetcher.prototype.get = function(onSuccess) {
-  var _this = this;
+  var self = this;
 
   if (fs.existsSync('./bower.json')) {
-    var
-      child = shell.exec('bower list --json', {
-        async: true,
+    var child = shell.exec('bower list --json', {
+      async: true,
         silent: true
-      }),
-      shellData = '';
+    });
+    var shellData = '';
 
     child.stdout.on('data', function(data) {
       shellData += data;
     });
 
     child.stdout.on('end', function() {
-      var jsonOutdated = JSON.parse(shellData),
-          parsedOutdated = {};
+      var jsonOutdated = JSON.parse(shellData);
+      var parsedOutdated = {};
 
-      _.each(jsonOutdated.dependencies, function(dependency, packageName) {
-        if (dependency.update !== undefined && !_.contains(this._exclusions, packageName)) {
+      _.forEach(jsonOutdated.dependencies, function(dependency, packageName) {
+        if (dependency.update !== undefined && !_.includes(self._exclusions, packageName)) {
           parsedOutdated[packageName] = {
             current: dependency.pkgMeta.version,
             latest: dependency.update.latest
           };
         }
-      }, _this);
+      });
 
       onSuccess(parsedOutdated);
     });

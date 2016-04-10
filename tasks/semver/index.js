@@ -14,17 +14,17 @@ Semver.prototype.setComparison = function(base, comparator) {
 };
 
 Semver.prototype.allMajor = function(status, comparator) {
-  var
-    _comparator = comparator || 'latest',
-    _outdated = {};
+  var _comparator = comparator || 'latest';
+  var _outdated = {};
+  var self = this;
 
-  _.each(status, function(version, packageName) {
-    this.setComparison(version.current, version.latest);
+  _.forEach(status, function(version, packageName) {
+    self.setComparison(version.current, version.latest);
 
-    if (!this.major().ahead(this._tolerance.major)) {
+    if (!self.major().ahead(self._tolerance.major)) {
       _outdated[packageName] = version;
     }
-  }, this);
+  });
 
   return {
     passing: Object.keys(_outdated).length <= 0,
@@ -33,17 +33,17 @@ Semver.prototype.allMajor = function(status, comparator) {
 };
 
 Semver.prototype.allMinor = function(status, comparator) {
-  var
-    _comparator = comparator || 'latest',
-    _outdated = {};
+  var _comparator = comparator || 'latest';
+  var _outdated = {};
+  var self = this;
 
-  _.each(status, function(version, packageName) {
-    this.setComparison(version.current, version.latest);
+  _.forEach(status, function(version, packageName) {
+    self.setComparison(version.current, version.latest);
 
-    if (!this.minor().ahead(this._tolerance.minor)) {
+    if (!self.minor().ahead(self._tolerance.minor)) {
       _outdated[packageName] = version;
     }
-  }, this);
+  });
 
   return {
     passing: Object.keys(_outdated).length <= 0,
@@ -52,17 +52,17 @@ Semver.prototype.allMinor = function(status, comparator) {
 };
 
 Semver.prototype.allPatch = function(status, comparator) {
-  var
-    _comparator = comparator || 'latest',
-    _outdated = {};
+  var _comparator = comparator || 'latest';
+  var _outdated = {};
+  var self = this;
 
-  _.each(status, function(version, packageName) {
-    this.setComparison(version.current, version.latest);
+  _.forEach(status, function(version, packageName) {
+    self.setComparison(version.current, version.latest);
 
-    if (!this.patch().ahead(this._tolerance.patch)) {
+    if (!self.patch().ahead(self._tolerance.patch)) {
       _outdated[packageName] = version;
     }
-  }, this);
+  });
 
   return {
     passing: Object.keys(_outdated).length <= 0,
@@ -101,8 +101,8 @@ Semver.prototype.generate = function(part) {
 Semver.prototype.parse = function(version) {
   if (typeof version !== 'string') { return false; }
 
-  var _split = version.split('.'),
-      _parsed;
+  var _split = version.split('.');
+  var _parsed;
 
   if (_split.length !== 3) { return false; }
 

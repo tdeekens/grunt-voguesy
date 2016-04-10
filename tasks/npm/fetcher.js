@@ -1,8 +1,7 @@
 'use strict';
 
-var
-  shell = require('shelljs'),
-  _ = require('lodash');
+var shell = require('shelljs');
+var _ = require('lodash');
 
 function Fetcher(exclusions) {
   this._exclusions = exclusions;
@@ -14,15 +13,16 @@ Fetcher.prototype.get = function() {
         (shellStdOut.length > 0) ? shellStdOut : '{}'
       ),
       parsedOutdated = {};
+  var self = this;
 
-  _.each(outdated, function(dependency, packageName) {
-    if (!_.contains(this._exclusions, packageName)) {
+  _.forEach(outdated, function(dependency, packageName) {
+    if (!_.contains(self._exclusions, packageName)) {
       parsedOutdated[packageName] = {
         current: dependency.current,
         latest: dependency.latest
       };
     }
-  }, this);
+  });
 
   return parsedOutdated;
 };

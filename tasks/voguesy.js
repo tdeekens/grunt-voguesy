@@ -2,24 +2,22 @@
 * grunt-voguesy
 * https://github.com/tdeekens/grunt-voguesy
 *
-* Copyright (c) 2014 tdeekens
+* Copyright (c) 2016 tdeekens
 * Licensed under the MIT license.
 */
 
 'use strict';
 
 module.exports = function(grunt) {
-  var
-    NpmFetcher = require('./npm/fetcher'),
-    BowerFetcher = require('./bower/fetcher'),
-    Persister = require('./persister'),
-    SemVer = require('./semver'),
-    _ = require('lodash');
+  var NpmFetcher = require('./npm/fetcher');
+  var BowerFetcher = require('./bower/fetcher');
+  var Persister = require('./persister');
+  var SemVer = require('./semver');
+  var _ = require('lodash');
 
   grunt.registerTask('voguesy', 'Analyse the up-to-dateness of your dependencies.', function() {
     //Grunt related initialization
-    var
-      options = this.options({
+    var options = this.options({
         awake: 25,
         warn: true,
         store: './dist/voguesy.json',
@@ -30,27 +28,26 @@ module.exports = function(grunt) {
           number: 5
         },
         exclusions: []
-      }),
-      done = this.async();
+      });
+    var done = this.async();
 
     //Setup helper objects with grunt options passed in
-    var
-      npmFetcher = new NpmFetcher(options.exclusions),
-      bowerFetcher = new BowerFetcher(options.exclusions),
-      semver = new SemVer(options['up-to-dateness']),
-      persister = new Persister(options.store);
+    var npmFetcher = new NpmFetcher(options.exclusions);
+    var bowerFetcher = new BowerFetcher(options.exclusions);
+    var semver = new SemVer(options['up-to-dateness']);
+    var persister = new Persister(options.store);
+
+    var status;
+    var outdatedNpmPackagesAsArray;
+    var outdatedBowerPackagesAsArray;
 
     //Helper function to avoid code repetition
-    var
-      checkDependencies = function(dependencies) {
+    var checkDependencies = function(dependencies) {
         var _dependencies = dependencies || {};
-
-        var
-          _numberOfOudatedPackages = Object.keys(_dependencies).length,
-          _minor = semver.allMinor(dependencies, 'latest'),
-          _major = semver.allMajor(dependencies, 'latest'),
-          _patch = semver.allPatch(dependencies, 'latest`');
-
+        var _numberOfOudatedPackages = Object.keys(_dependencies).length;
+        var _minor = semver.allMinor(dependencies, 'latest');
+        var _major = semver.allMajor(dependencies, 'latest');
+        var _patch = semver.allPatch(dependencies, 'latest`');
         var _passing = (
           options['up-to-dateness'].number >= _numberOfOudatedPackages &&
           _major.passing === true &&
@@ -62,63 +59,62 @@ module.exports = function(grunt) {
           passing: _passing,
           outdated: _.merge(_major.outdated, _minor.outdated, _patch.outdated)
         };
-      },
-      dependenciesAsArray = function(dependencies) {
-        return _.map(dependencies, function(dependency, packageName) {
-          return {
-            'package': packageName,
-            current: dependency.current,
-            latest: dependency.latest,
-          };
-        });
-      },
-      initializeStatus = function() {
-        options.since = 0;
-        options['up-to-date'] = {};
-        status = persister.write(options);
-      },
-      logStatus = function() {
-        if (status.since >= options.awake && status['up-to-date'].all === false) {
-          grunt.log.errorlns(
-            'Dependencies are not passing your demanded up-to-dateness: ' +
-            _.map(
-              _.merge(
-                _.clone(outdatedNpmPackagesAsArray),
-                _.clone(outdatedBowerPackagesAsArray)
-              ), 'package'
-            ) + '.'
-          );
-
-          persister.write(status);
-
-          if (options.warn === false) {
-            grunt.fail.warn('...breaking build as a result thereof!');
-          }
-        } else if (status.since >= options.awake && status['up-to-date'].all === true) {
-          grunt.log.oklns('Dependencies analyzed and passing your requirements.');
-
-          status.since = 0;
-          persister.write(status);
-        } else {
-          grunt.log.oklns('Dependencies won\'t be analyzed as not enough grunt runs passed.');
-
-          status.since = status.since || 0;
-          status.since++;
-
-          status = persister.write(status);
-        }
       };
 
+    var dependenciesAsArray = function(dependencies) {
+      return _.map(dependencies, function(dependency, packageName) {
+        return {
+          'package': packageName,
+          current: dependency.current,
+          latest: dependency.latest,
+        };
+      });
+    },
+    initializeStatus = function() {
+      options.since = 0;
+      options['up-to-date'] = {};
+      status = persister.write(options);
+    },
+    logStatus = function() {
+      if (status.since >= options.awake && status['up-to-date'].all === false) {
+        grunt.log.errorlns(
+          'Dependencies are not passing your demanded up-to-dateness: ' +
+          _.map(
+            _.merge(
+              _.clone(outdatedNpmPackagesAsArray),
+              _.clone(outdatedBowerPackagesAsArray)
+            ), 'package'
+          ) + '.'
+        );
+
+        persister.write(status);
+
+        if (options.warn === false) {
+          grunt.fail.warn('...breaking build as a result thereof!');
+        }
+      } else if (status.since >= options.awake && status['up-to-date'].all === true) {
+        grunt.log.oklns('Dependencies analyzed and passing your requirements.');
+
+        status.since = 0;
+        persister.write(status);
+      } else {
+        grunt.log.oklns('Dependencies won\'t be analyzed as not enough grunt runs passed.');
+
+        status.since = status.since || 0;
+        status.since++;
+
+        status = persister.write(status);
+      }
+    };
+
     //Read status from disc or initialize it
-    var status = persister.read();
+    status = persister.read();
     if (status === null) { initializeStatus(); }
 
     //Do the work
     if (status.since >= options.awake) {
-      var outdatedNpmPackages = checkDependencies(npmFetcher.get()),
-          outdatedBowerPackages = null,
-          outdatedNpmPackagesAsArray = null,
-          outdatedBowerPackagesAsArray = null;
+      var outdatedNpmPackages = checkDependencies(npmFetcher.get());
+      var outdatedBowerPackages = null;
 
       status['up-to-date'].npm = outdatedNpmPackages.passing;
 
